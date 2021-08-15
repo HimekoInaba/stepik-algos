@@ -10,12 +10,12 @@ import java.util.StringTokenizer;
 public class ContinuousKnapsack {
     public static void main(String[] args) {
         FastScanner scanner = new FastScanner();
-        double n = scanner.nexDouble();
-        double w = scanner.nexDouble();
+        double n = scanner.nextDouble();
+        double w = scanner.nextDouble();
         List<Item> items = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            double cost = scanner.nexDouble();
-            double weight = scanner.nexDouble();
+            double cost = scanner.nextDouble();
+            double weight = scanner.nextDouble();
             if (cost != 0)
                 items.add(new Item(cost, weight));
         }
@@ -72,7 +72,7 @@ public class ContinuousKnapsack {
             return Integer.parseInt(next());
         }
 
-        double nexDouble() {
+        double nextDouble() {
             return Double.parseDouble(next());
         }
 
