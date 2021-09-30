@@ -1,13 +1,9 @@
 package me.syrym.greedy;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
-public class ContinuousKnapsack {
+public class ContinuousKnapsack extends FastScanner {
     public static void main(String[] args) {
         FastScanner scanner = new FastScanner();
         double n = scanner.nextDouble();
@@ -51,42 +47,6 @@ public class ContinuousKnapsack {
         Item(double cost, double weight) {
             this.weight = weight;
             this.cost = cost;
-        }
-    }
-
-    static class FastScanner {
-        private final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        private StringTokenizer st = new StringTokenizer("");
-
-        String next() {
-            while (!st.hasMoreTokens())
-                try {
-                    st = new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    System.out.println("IO ERROR: " + e.getMessage());
-                }
-            return st.nextToken();
-        }
-
-        int nextInt() {
-            return Integer.parseInt(next());
-        }
-
-        double nextDouble() {
-            return Double.parseDouble(next());
-        }
-
-        long nextLong() {
-            return Long.parseLong(next());
-        }
-
-        String readLine() {
-            try {
-                return br.readLine();
-            } catch (IOException e) {
-                e.printStackTrace();
-                return "ERROR!";
-            }
         }
     }
 }
