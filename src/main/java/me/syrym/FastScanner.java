@@ -1,4 +1,4 @@
-package me.syrym.greedy;
+package me.syrym;
 
 import java.io.BufferedReader;
 import java.io.IOException;

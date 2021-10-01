@@ -1,6 +1,6 @@
 package me.syrym.greedy.huffman;
 
-import me.syrym.greedy.FastScanner;
+import me.syrym.FastScanner;
 import me.syrym.greedy.huffman.structure.Leaf;
 import me.syrym.greedy.huffman.structure.Node;
 import me.syrym.greedy.huffman.structure.Parent;

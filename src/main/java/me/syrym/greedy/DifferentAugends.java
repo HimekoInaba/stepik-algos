@@ -1,5 +1,7 @@
 package me.syrym.greedy;
 
+import me.syrym.FastScanner;
+
 import java.util.ArrayList;
 import java.util.List;
 
