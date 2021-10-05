@@ -3,8 +3,7 @@ package me.syrym.dynamic;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class LongestNonIncreasingSubsequence {
     public static void main(String[] args) {
@@ -63,22 +62,47 @@ public class LongestNonIncreasingSubsequence {
 
     static void LNISBottomUpNLogN(int[] arr) {
         int[] dp = new int[arr.length + 1];
-        int[] p = new int[arr.length + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
-        dp[0] = arr[0];
+        int[] pos = new int[arr.length + 1];
+        int[] prev = new int[arr.length];
+        int length = 0;
+        Arrays.fill(dp, Integer.MIN_VALUE);
+        dp[0] = Integer.MAX_VALUE;
 
         // dp[i] = число на которое заканчивается невозрастающая подпоследовательность длины i
         // dp[i-1] >= dp[i]
         // 5 3 4 4 2 5 9
         for (int i = 0; i < arr.length; i++) {
             for (int j = 1; j <= arr.length; j++) {
-                if (dp[j - 1] > arr[i] && arr[i] < dp[j]) {
+                if (dp[j - 1] >= arr[i] && arr[i] > dp[j]) {
                     dp[j] = arr[i];
-                    p[i] = j;
+                    pos[j] = i;
+                    prev[i] = pos[j - 1];
+                    length = Math.max(length, j);
                 }
             }
         }
-        System.out.println(dp[arr.length]);
+
+        System.out.println(length);
+        List<Integer> res = new ArrayList<>();
+        int p = pos[length];
+        while (p != Integer.MAX_VALUE) {
+            res.add(arr[p]);
+            p = prev[p];
+        }
+        Collections.reverse(res);
+        res.forEach(it -> System.out.print(it + " "));
+    }
+
+    static void LIS(int[] arr) {
+        int d[] = new int[arr.length + 1];
+        d[0] = Integer.MIN_VALUE;
+        for (int i = 1; i <= arr.length; ++i)
+            d[i] = Integer.MAX_VALUE;
+
+        for (int i = 0; i < arr.length; i++)
+            for (int j = 1; j <= arr.length; j++)
+                if (d[j - 1] < arr[i] && arr[i] < d[j])
+                    d[j] = arr[i];
     }
 
     private static class FastScanner {
