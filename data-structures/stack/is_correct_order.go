@@ -1,9 +1,6 @@
-package main
+package stack
 
 import (
-	"bufio"
-	"fmt"
-	"os"
 	"strconv"
 )
 
@@ -16,13 +13,6 @@ const (
 	closeCurly   = 125
 )
 
-func main() {
-	reader := bufio.NewReader(os.Stdin)
-	text, _ := reader.ReadString('\n')
-	text = text[:len(text)-1] // remove \n
-	fmt.Println(IsCorrectOrder(text))
-}
-
 // IsCorrectOrder
 /*
    Check whether braces are placed in correct order.
@@ -31,7 +21,7 @@ func main() {
    Output. Check whether braces are placed in correct order. Otherwise, return first incorrect index.
 */
 func IsCorrectOrder(text string) string {
-	head := StackNode{
+	head := Node{
 		elem:          -1,
 		simpleCnt:     0,
 		squareCnt:     0,
@@ -94,41 +84,4 @@ func IsCorrectOrder(text string) string {
 	}
 
 	return "Success"
-}
-
-type StackNode struct {
-	elem                                       rune
-	simpleCnt, squareCnt, curlyCnt             int
-	lastSquareIdx, lastSimpleIdx, lastCurlyIdx int
-	len                                        int
-	prev, next                                 *StackNode
-}
-
-func (s *StackNode) append(i int, elem rune) *StackNode {
-	node := StackNode{
-		elem:          elem,
-		simpleCnt:     s.simpleCnt,
-		squareCnt:     s.squareCnt,
-		curlyCnt:      s.curlyCnt,
-		lastCurlyIdx:  s.lastCurlyIdx,
-		lastSquareIdx: s.lastSquareIdx,
-		lastSimpleIdx: s.lastSimpleIdx,
-		prev:          s,
-		next:          nil,
-		len:           s.len + 1,
-	}
-	switch elem {
-	case '(':
-		node.lastSimpleIdx = i
-		node.simpleCnt = s.simpleCnt + 1
-	case '{':
-		node.lastCurlyIdx = i
-		node.curlyCnt = s.curlyCnt + 1
-	case '[':
-		node.lastSquareIdx = i
-		node.squareCnt = s.squareCnt + 1
-	}
-
-	s.next = &node
-	return &node
 }
