@@ -1,46 +1,49 @@
-package me.syrym.divideandconquer;
+package me.syrym.basic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.util.*;
 
-public class BinarySearch {
+/**
+ * Input. Root tree with nodes {0, . . . , n−1}, given
+ * as sequence parent0, . . . , parentn−1, where parenti —
+ * is parent of i-th node.
+ * Output. Height of the tree.
+ */
+public class TreeHeight {
     public static void main(String[] args) {
-        FastScanner sc = new FastScanner();
-        int n = sc.nextInt();
-        int[] A = new int[n];
-        for (int i = 0; i < n; i++) {
-            A[i] = sc.nextInt();
-        }
-        int m = sc.nextInt();
-        int[] B = new int[m];
-        for (int i = 0; i < m; i++) {
-            B[i] = sc.nextInt();
-        }
-        for (int i = 0; i < m; i++) {
-            int r = binarySearch(A, B[i]);
-            if (r >= 0) {
-                r++;
-            }
-            System.out.print(r + " ");
-        }
+        new TreeHeight().solve();
     }
 
-    static int binarySearch(int[] arr, int target) {
-        int lo = 0;
-        int hi = arr.length - 1;
-        while (lo <= hi) {
-            int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) {
-                return mid;
-            } else if (arr[mid] > target) {
-                hi = mid - 1;
-            } else {
-                lo = mid + 1;
+    private void solve() {
+        FastScanner fastScanner = new FastScanner();
+        int n = fastScanner.nextInt();
+        int rootIdx = 0;
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        for (int childIdx = 0; childIdx < n; childIdx++) {
+            int parentIdx = fastScanner.nextInt();
+            List<Integer> list = map.getOrDefault(parentIdx, new ArrayList<>());
+            list.add(childIdx);
+            map.put(parentIdx, list);
+            if (parentIdx == -1) {
+                rootIdx = childIdx;
             }
         }
-        return -1;
+        System.out.println(getHeight(map, rootIdx));
+    }
+
+    private int getHeight(Map<Integer, List<Integer>> map, int i) {
+        if (i == -1) {
+            return 0;
+        }
+        int height = 1;
+        if (map.containsKey(i)) {
+            for (int childIdx : map.get(i)) {
+                height = Math.max(height, 1 + getHeight(map, childIdx));
+            }
+        }
+        return height;
     }
 
     static class FastScanner {

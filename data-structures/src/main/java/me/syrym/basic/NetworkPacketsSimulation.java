@@ -1,46 +1,66 @@
-package me.syrym.divideandconquer;
+package me.syrym.basic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
-public class BinarySearch {
+public class NetworkPacketsSimulation {
     public static void main(String[] args) {
-        FastScanner sc = new FastScanner();
-        int n = sc.nextInt();
-        int[] A = new int[n];
+        new NetworkPacketsSimulation().solve();
+    }
+
+    private void solve() {
+        FastScanner scanner = new FastScanner();
+        int size = scanner.nextInt();
+        int n = scanner.nextInt();
+
+        Queue<Packet> queue = new LinkedList<>();
+        FixedSizeQueue fixedSizeQueue = new FixedSizeQueue(size);
         for (int i = 0; i < n; i++) {
-            A[i] = sc.nextInt();
+            queue.offer(new Packet(scanner.nextInt(), scanner.nextInt()));
         }
-        int m = sc.nextInt();
-        int[] B = new int[m];
-        for (int i = 0; i < m; i++) {
-            B[i] = sc.nextInt();
+
+
+    }
+
+    static class FixedSizeQueue {
+        int size = 0;
+        int capacity;
+        Queue<Packet> queue = new LinkedList<>();
+
+        FixedSizeQueue(int capacity) {
+            this.capacity = capacity;
         }
-        for (int i = 0; i < m; i++) {
-            int r = binarySearch(A, B[i]);
-            if (r >= 0) {
-                r++;
+
+        boolean offer(Packet packet) {
+            if (size < capacity) {
+                this.queue.offer(packet);
+                size++;
+                return true;
             }
-            System.out.print(r + " ");
+            return false;
+        }
+
+        Packet poll() {
+            if (size <= 0) {
+                return null;
+            } else {
+                size--;
+                return queue.poll();
+            }
         }
     }
 
-    static int binarySearch(int[] arr, int target) {
-        int lo = 0;
-        int hi = arr.length - 1;
-        while (lo <= hi) {
-            int mid = lo + (hi - lo) / 2;
-            if (arr[mid] == target) {
-                return mid;
-            } else if (arr[mid] > target) {
-                hi = mid - 1;
-            } else {
-                lo = mid + 1;
-            }
+    static class Packet {
+        int arrival;
+        int duration;
+        Packet(int arrival, int duration) {
+            this.arrival = arrival;
+            this.duration = duration;
         }
-        return -1;
     }
 
     static class FastScanner {
