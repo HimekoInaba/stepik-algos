@@ -17,25 +17,22 @@ public class NetworkPacketsSimulation {
         int size = scanner.nextInt();
         int n = scanner.nextInt();
 
-        Queue<Packet> queue = new LinkedList<>();
-        FixedSizeQueue fixedSizeQueue = new FixedSizeQueue(size);
+        FixedSizeQueue<Packet> buffer = new FixedSizeQueue<>(size);
         for (int i = 0; i < n; i++) {
-            queue.offer(new Packet(scanner.nextInt(), scanner.nextInt()));
+            buffer.offer(new Packet(scanner.nextInt(), scanner.nextInt()));
         }
-
-
     }
 
-    static class FixedSizeQueue {
+    static class FixedSizeQueue<T> {
         int size = 0;
         int capacity;
-        Queue<Packet> queue = new LinkedList<>();
+        Queue<T> queue = new LinkedList<>();
 
         FixedSizeQueue(int capacity) {
             this.capacity = capacity;
         }
 
-        boolean offer(Packet packet) {
+        boolean offer(T packet) {
             if (size < capacity) {
                 this.queue.offer(packet);
                 size++;
@@ -44,13 +41,17 @@ public class NetworkPacketsSimulation {
             return false;
         }
 
-        Packet poll() {
+        T poll() {
             if (size <= 0) {
                 return null;
             } else {
                 size--;
                 return queue.poll();
             }
+        }
+
+        boolean isEmpty() {
+            return queue.isEmpty();
         }
     }
 
