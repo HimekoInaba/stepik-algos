@@ -26,25 +26,22 @@ public class MaximumInSlidingWindow {
     }
 
     static class MaxQueue {
-        int size;
-        MaxStack firstStack = new MaxStack();
-        MaxStack secondStack = new MaxStack();
+        private final int size;
+        private final MaxStack firstStack = new MaxStack();
+        private final MaxStack secondStack = new MaxStack();
 
         MaxQueue(int size) {
             this.size = size;
         }
 
         void push(int val) {
-            if (firstStack.getSize() == size) {
-                while (firstStack.getSize() == 1) {
-                    if (secondStack.getSize() == size) {
-                        secondStack.pop();
+            if (firstStack.getSize() + secondStack.getSize() == size) {
+                if (secondStack.getSize() == 0) {
+                    while (firstStack.getSize() != 0) {
+                        secondStack.push(firstStack.pop());
                     }
-                    secondStack.push(firstStack.pop());
                 }
-                if (secondStack.getSize() == size) {
-                    secondStack.pop();
-                }
+                secondStack.pop();
             }
 
             firstStack.push(val);
@@ -92,16 +89,3 @@ public class MaximumInSlidingWindow {
         }
     }
 }
-/*
-8
-2 7 3 1 5 2 6 2
-4
-
-
-1
-3
-7
-2
-
-
- */
