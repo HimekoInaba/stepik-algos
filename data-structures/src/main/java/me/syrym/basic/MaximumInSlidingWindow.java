@@ -19,15 +19,38 @@ public class MaximumInSlidingWindow {
         }
         int m = scanner.nextInt();
 
-        int sum = 0;
-        int start = 0;
-        for (int end = 0; end < n; end++) {
-            if (end - start > m) {
-                sum -= arr[start++];
+        MaxQueue maxQueue = new MaxQueue(m);
+        for (int elem : arr) {
+            maxQueue.push(elem);
+        }
+    }
+
+    static class MaxQueue {
+        int size;
+        MaxStack firstStack = new MaxStack();
+        MaxStack secondStack = new MaxStack();
+
+        MaxQueue(int size) {
+            this.size = size;
+        }
+
+        void push(int val) {
+            if (firstStack.getSize() == size) {
+                while (firstStack.getSize() == 1) {
+                    if (secondStack.getSize() == size) {
+                        secondStack.pop();
+                    }
+                    secondStack.push(firstStack.pop());
+                }
+                if (secondStack.getSize() == size) {
+                    secondStack.pop();
+                }
             }
-            sum += arr[end];
-            if (end - start == m) {
-                System.out.println(sum);
+
+            firstStack.push(val);
+
+            if (firstStack.getSize() + secondStack.getSize() == size) {
+                System.out.println(Math.max(firstStack.max(), secondStack.max()));
             }
         }
     }
@@ -37,12 +60,13 @@ public class MaximumInSlidingWindow {
         private StringTokenizer st = new StringTokenizer("");
 
         public String next() {
-            while (!st.hasMoreTokens())
+            while (!st.hasMoreTokens()) {
                 try {
                     st = new StringTokenizer(br.readLine());
                 } catch (IOException e) {
                     System.out.println("IO ERROR: " + e.getMessage());
                 }
+            }
             return st.nextToken();
         }
 
@@ -68,3 +92,16 @@ public class MaximumInSlidingWindow {
         }
     }
 }
+/*
+8
+2 7 3 1 5 2 6 2
+4
+
+
+1
+3
+7
+2
+
+
+ */
